@@ -1,6 +1,6 @@
 <?php
 namespace Gone\AppCore\Exceptions;
 
-class DbException extends GeneralException
+class GeneralException extends \Exception
 {
 }

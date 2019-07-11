@@ -11,6 +11,7 @@ use DebugBar\DebugBar;
 use DebugBar\StandardDebugBar;
 use Faker\Factory as FakerFactory;
 use Faker\Provider;
+use Gone\AppCore\Exceptions\GeneralException;
 use Gone\AppCore\Router\Route;
 use Gone\AppCore\Router\Router;
 use Gone\AppCore\Services\EnvironmentService;
@@ -59,10 +60,7 @@ class App
         'Cache'            => CachePoolChain::class,
     ];
 
-    protected $routePaths = [
-        APP_ROOT . "/src/Routes.php",
-        APP_ROOT . "/src/RoutesExtra.php",
-    ];
+    protected $routePaths = [];
 
     protected $viewPaths = [];
 
@@ -74,6 +72,9 @@ class App
     public function setup()
     {
         // Check defined config
+        if (!defined("APP_ROOT")) {
+            throw new GeneralException("APP_ROOT has not been defined.");
+        }
         if (!defined("APP_START")) {
             define("APP_START", microtime(true));
         }
@@ -83,6 +84,9 @@ class App
         if (!defined("DEFAULT_ROUTE_ACCESS_MODE")) {
             define("DEFAULT_ROUTE_ACCESS_MODE", Route::ACCESS_PUBLIC);
         }
+
+        $this->addRoutePath(APP_ROOT . "/src/Routes.php");
+        $this->addRoutePath(APP_ROOT . "/src/RoutesExtra.php");
 
         error_reporting(E_ALL);
         ini_set('display_errors', 1);

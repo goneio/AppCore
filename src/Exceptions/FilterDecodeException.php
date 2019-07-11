@@ -1,6 +1,6 @@
 <?php
 namespace Gone\AppCore\Exceptions;
 
-class FilterDecodeException extends \Exception
+class FilterDecodeException extends GeneralException
 {
 }

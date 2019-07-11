@@ -1,6 +1,6 @@
 <?php
 namespace Gone\AppCore\Exceptions;
 
-class TableGatewayException extends \Exception
+class TableGatewayException extends GeneralException
 {
 }
