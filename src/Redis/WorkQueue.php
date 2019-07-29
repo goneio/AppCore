@@ -25,6 +25,15 @@ class WorkQueue
     }
 
     /**
+     * @return Redis
+     */
+    public function getRedis(): Redis
+    {
+        return $this->redis;
+    }
+
+
+    /**
      * @return string
      */
     public function getNamespace(): string
