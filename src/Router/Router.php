@@ -44,15 +44,15 @@ class Router
         return $this;
     }
 
-    public function populateRoutes(App $app)
+    public function populateRoutes(App $app) : self
     {
         $this->weighRoutes();
         if (count($this->routes) > 0) {
             foreach ($this->routes as $route) {
-                $app = $route->populateRoute($app);
+                $route->populateRoute($app);
             }
         }
-        return $app;
+        return $this;
     }
 
     public function addRoute(Route $route)

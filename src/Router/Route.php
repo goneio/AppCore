@@ -359,7 +359,7 @@ class Route
      *
      * @return \Slim\App
      */
-    public function populateRoute(App $app) : App
+    public function populateRoute(App $app) : self
     {
         #echo "Populating: {$this->getHttpMethod()} {$this->getRouterPattern()}\n";
         $mapping = $app->map(
@@ -370,7 +370,7 @@ class Route
 
         $mapping->setName($this->getName() ? $this->getName() : "Unnamed Route");
         $mapping->setArgument('access', $this->getAccess());
-        return $app;
+        return $this;
     }
 
     /**
