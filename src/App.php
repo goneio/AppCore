@@ -111,6 +111,12 @@ class App
         // Fetch DI Container
         $this->container = $this->app->getContainer();
 
+        // Get the App and put that in the DI as \Slim\App
+        $app = $this->app;
+        $this->container[\Slim\App::class] = function (Slim\Container $container) use ($app){
+            return $app;
+        };
+
         $this->populateContainerAliases($this->container);
 
         $this->setupDependencies();
