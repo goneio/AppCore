@@ -12,14 +12,26 @@ use Slim\Views\Twig;
 
 class ApiListController extends Controller
 {
+    /** @var \Slim\App */
+    protected $app;
+    /** @var Twig */
+    protected $twig;
     /** @var Logger */
-    private $logger;
+    protected $logger;
+    /** @var Router */
+    protected $router;
 
     public function __construct(
-        Logger $logger
+        \Slim\App $app,
+        Twig $twig,
+        Logger $logger,
+        Router $router
     )
     {
+        $this->app = $app;
+        $this->twig = $twig;
         $this->logger = $logger;
+        $this->router = $router;
     }
 
     public function listAllRoutes(Request $request, Response $response, $args)
@@ -52,8 +64,6 @@ class ApiListController extends Controller
             }
             return $this->jsonResponse($json, $request, $response);
         }
-        $router = App::Container()->get("router");
-        $routes = $router->getRoutes();
 
         $displayRoutes = [];
 
@@ -89,10 +99,7 @@ class ApiListController extends Controller
             }
         }
 
-        /** @var Twig $twig */
-        $twig = App::Instance()->getContainer()->get("view");
-
-        return $twig->render($response, 'api/list.html.twig', [
+        return $this->twig->render($response, 'api/list.html.twig', [
             'page_name'  => "API Endpoint List",
             'routes'     => $displayRoutes,
             'inline_css' => $this->renderInlineCss([
