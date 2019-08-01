@@ -14,10 +14,22 @@ class EnvironmentHeadersOnResponse
 
     protected $apiExplorerEnabled = true;
 
+    protected $app;
+
+    protected $profiler;
+
+    public function __construct(
+        \Slim\App $app,
+        Profiler $profiler
+    )
+    {
+        $this->app = $app;
+        $this->profiler = $profiler;
+    }
+
     public function __invoke(Request $request, Response $response, $next)
     {
-        /** @var Profiler $profiler */
-        $profiler = App::Container()->get(Profiler::class);
+
         /** @var Response $response */
         $response = $next($request, $response);
         if (isset($response->getHeader('Content-Type')[0])
@@ -53,7 +65,7 @@ class EnvironmentHeadersOnResponse
                     'Allocated'  => number_format(memory_get_usage(true)/1024/1024, 2) . "MB",
                     'Limit'      => ini_get('memory_limit'),
                 ] : null,
-                'SQL' => defined('DEBUG_ENABLED') && DEBUG_ENABLED ? $profiler->getQueriesArray() : null,
+                'SQL' => defined('DEBUG_ENABLED') && DEBUG_ENABLED ? $this->profiler->getQueriesArray() : null,
                 'API' => defined('DEBUG_ENABLED') && DEBUG_ENABLED && class_exists('\Gone\SDK\Common\Profiler') ? \Gone\SDK\Common\Profiler::debugArray() : null,
             ]);
 

@@ -22,6 +22,7 @@ use Gone\AppCore\Zend\Profiler;
 use Gone\Session\Session;
 use Gone\Twig\InflectionExtension;
 use Gone\Twig\TransformExtension;
+use Middlewares;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\RedisHandler;
@@ -425,17 +426,17 @@ class App
     public function setupMiddlewares() : void
     {
         // Middlewares
-        $this->app->add(new Middleware\EnvironmentHeadersOnResponse());
-        ##$this->app->add(new \Middlewares\ContentType(["text/html", "application/json"]));
-        #$this->app->add(new \Middlewares\Debugbar());
-        ##$this->app->add(new \Middlewares\Geolocation());
-        $this->app->add(new \Middlewares\TrailingSlash());
-        $this->app->add(new Middleware\JSONResponseLinter());
-        #$this->app->add(new \Middlewares\Whoops());
-        #$this->app->add(new \Middlewares\CssMinifier());
-        #$this->app->add(new \Middlewares\JsMinifier());
-        #$this->app->add(new \Middlewares\HtmlMinifier());
-        $this->app->add(new \Middlewares\GzipEncoder());
+        $this->app->add(self::getContainer()->get(Middleware\EnvironmentHeadersOnResponse::class));
+        ##$this->app->add(self::getContainer()->get(Middlewares\ContentType:class));
+        #$this->app->add(self::getContainer()->get(Middlewares\Debugbar::class));
+        ##$this->app->add(self::getContainer()->get(Middleware\Geolocation::class));
+        $this->app->add(self::getContainer()->get(Middlewares\TrailingSlash::class));
+        $this->app->add(self::getContainer()->get(Middleware\JSONResponseLinter::class));
+        #$this->app->add(self::getContainer()->get(Middlewares\Whoops::class));
+        #$this->app->add(self::getContainer()->get(Middlewares\CssMinifier::class));
+        #$this->app->add(self::getContainer()->get(Middlewares\JsMinifier::class));
+        #$this->app->add(self::getContainer()->get(Middlewares\HtmlMinifier::class));
+        $this->app->add(self::getContainer()->get(Middlewares\GzipEncoder::class));
     }
 
     /**
