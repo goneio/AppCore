@@ -144,12 +144,12 @@ class App
     public function setupDependencies() : void
     {
         // add PSR-15 support shim
-        $this->container['callableResolver'] = function ($container) {
-            return new \Bnf\Slim3Psr15\CallableResolver($container);
+        $this->container['callableResolver'] = function (Slim\Container $c) {
+            return new \Bnf\Slim3Psr15\CallableResolver($c);
         };
 
         // Register Twig View helper
-        $this->container[Slim\Views\Twig::class] = function ($c) {
+        $this->container[Slim\Views\Twig::class] = function (Slim\Container $c) {
             foreach ($this->viewPaths as $i => $viewLocation) {
                 if (!file_exists($viewLocation) || !is_dir($viewLocation)) {
                     unset($this->viewPaths[$i]);
