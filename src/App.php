@@ -277,7 +277,7 @@ class App
             try {
                 $c->get('RedisConfig');
                 $caches[] = new PredisCachePool($c->get(Redis::class));
-            } catch (RedisConfigException $rce) {
+            } catch (RedisConfigException|Slim\Exception\ContainerException $rce) {
                 // No redis.
             }
 
